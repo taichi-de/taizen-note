@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     // FIXME:
-    <div className="flex flex-col items-center justify-center max-h-full font-mono text-sm text-gray-600 overflow-y-auto scroll-y">
+    <div className="flex flex-col items-center justify-center max-w-screen text-sm text-gray-600 mt-20">
       <Navbar toggle={toggle} />
       <Dropdown isOpen={isOpen} toggle={toggle} />
       <main className="flex flex-col items-center justify-center flex-1 w-screen">
@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           {children}
         {/* </div> */}
       </main>
-      <footer className="absolute bottom-0 z-20 flex items-center justify-center w-full h-10 bg-black">
+      <footer className="flex items-center justify-center w-full h-10 bg-black mt-10_">
         <p className="text-xs text-center text-gray-500">
           Copyright © 2023 TAIZEN | All rights reserved
         </p>
