@@ -1,11 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
-import { client } from '../libs/client';
-import { MicroCMSListResponse } from 'microcms-js-sdk';
-import Link from 'next/link';
-import BlogLayout from '../components/BlogLayout';
-import RightSidebar from '../components/RightSidebar';
-import { ComponentProps, useState } from 'react';
-import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
+import { GetStaticProps, NextPage } from "next";
+import { client } from "../libs/client";
+import { MicroCMSListResponse } from "microcms-js-sdk";
+import Link from "next/link";
+import BlogLayout from "../components/BlogLayout";
+import RightSidebar from "../components/RightSidebar";
+import { ComponentProps, useState } from "react";
+import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
 
 export type Blog = {
   id: string;
@@ -18,19 +18,19 @@ type Props = MicroCMSListResponse<Blog>;
 const Home: NextPage<Props> = (props) => {
   const [search, setSearch] = useState<Props>();
 
-  const handleSubmit: ComponentProps<'form'>['onSubmit'] = async (e) => {
+  const handleSubmit: ComponentProps<"form">["onSubmit"] = async (e) => {
     e.preventDefault();
     const q = e.currentTarget.query.value;
-    const data = await fetch('/api/search', {
+    const data = await fetch("/api/search", {
       body: JSON.stringify({ q }),
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
     });
     const json = await data.json();
     setSearch(json);
   };
 
-  const handleClick: ComponentProps<'button'>['onClick'] = async (e) => {
+  const handleClick: ComponentProps<"button">["onClick"] = async (e) => {
     setSearch(undefined);
   };
 
@@ -39,16 +39,24 @@ const Home: NextPage<Props> = (props) => {
 
   return (
     <BlogLayout>
-      <div className="grid grid-cols-12 gap-4 w-4/5 h-4/5 text-left">
+      <div className="grid grid-cols-12 gap-4 lg:w-4/5 w-[90%] h-4/5 text-left">
         <div className="lg:col-span-8 col-span-12 bg-gray-200 px-2">
-          <h1 className="text-center text-xl text-bold italic my-8">Archives</h1>
-          <div className="flex justify-between items-center px-4">
+          <h1 className="text-center text-xl text-bold italic md:my-8 my-4">
+            Archives
+          </h1>
+          <div className="md:flex block justify-between items-center px-4">
             <p className="text-gray-400">{`${
-              search ? '検索結果' : '記事の総数'
+              search ? "検索結果" : "記事の総数"
             }: ${totalCount}件`}</p>
             <form className="flex gap-x-2" onSubmit={handleSubmit}>
-              <input type="text" name="query" className="border rounded-md border-gray-300 p-1" />
-              <Button className="rounded-md px-1 text-gray-100 bg-cyan-500">Search</Button>
+              <input
+                type="text"
+                name="query"
+                className="border rounded-md border-gray-300 p-1"
+              />
+              <Button className="rounded-md px-1 text-gray-100 bg-cyan-500">
+                Search
+              </Button>
               <Button
                 type="reset"
                 className="rounded-md px-1 text-gray-100 bg-cyan-500"
@@ -58,7 +66,7 @@ const Home: NextPage<Props> = (props) => {
               </Button>
             </form>
           </div>
-          <div className="grid grid-cols-2 gap-2 m-4">
+          <div className="grid md:grid-cols-2 gap-4 m-4">
             {contents.map((content) => {
               return (
                 <Link
@@ -66,7 +74,13 @@ const Home: NextPage<Props> = (props) => {
                   href={`/blog/${content.id}`}
                   key={content.id}
                 >
-                  <Card shadow="sm" padding="lg" radius="md" withBorder className="">
+                  <Card
+                    shadow="sm"
+                    padding="lg"
+                    radius="md"
+                    withBorder
+                    className=""
+                  >
                     <Card.Section>
                       {/* TODO: change images dinamically */}
                       <Image
@@ -82,8 +96,9 @@ const Home: NextPage<Props> = (props) => {
 
                     <Text size="sm" color="dimmed">
                       {/* TODO: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ...' */}
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil deleniti
-                      laboriosam recusandae sint praesentium, reprehenderit odio dolores.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Nihil deleniti laboriosam recusandae sint praesentium,
+                      reprehenderit odio dolores.
                     </Text>
 
                     <Badge color="green" variant="light">
@@ -96,7 +111,7 @@ const Home: NextPage<Props> = (props) => {
             })}
           </div>
         </div>
-        <div className="col-span-4 hidden lg:block h-screen bg-sky-300 lg:bg-transparent">
+        <div className="lg:col-span-4 col-span-12 lg:block h-full bg-sky-300 lg:bg-transparent">
           <RightSidebar />
         </div>
       </div>
@@ -105,7 +120,7 @@ const Home: NextPage<Props> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const data = await client.getList<Blog>({ endpoint: 'blog' });
+  const data = await client.getList<Blog>({ endpoint: "blog" });
   return {
     props: data,
   };
