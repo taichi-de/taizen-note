@@ -27,9 +27,10 @@ const BlogId: NextPage<Props> = (props) => {
             <time dateTime={props.updatedAt}>
               {dayjs(props.updatedAt).format("YYYY.MM.DD")}
             </time>
+            {/* TODO: add categories
             {props.category && (
               <p className="text-gray-400">/{props?.category}</p>
-            )}
+            )} */}
           </div>
           {/* TODO: ad tags */}
           <div className="flex">
