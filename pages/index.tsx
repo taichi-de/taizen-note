@@ -11,6 +11,14 @@ export type Blog = {
   id: string;
   title: string;
   body: string;
+  updatedAt: string;
+  category: string;
+  thumbnail: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  tags: string[];
 };
 
 type Props = MicroCMSListResponse<Blog>;
@@ -39,7 +47,7 @@ const Home: NextPage<Props> = (props) => {
 
   return (
     <BlogLayout>
-      <div className="grid grid-cols-12 gap-4 lg:w-4/5 w-[90%] h-4/5 text-left">
+      <div className="grid grid-cols-12 gap-4 py-4 px-0 md:p-8 lg:w-4/5 w-full h-[90%] text-left">
         <div className="lg:col-span-8 col-span-12 bg-gray-200 px-2">
           <h1 className="text-center text-xl text-bold italic md:my-8 my-4">
             Archives
@@ -82,12 +90,9 @@ const Home: NextPage<Props> = (props) => {
                     className=""
                   >
                     <Card.Section>
-                      {/* TODO: change images dinamically */}
-                      <Image
-                        src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                        height={160}
-                        alt="thumbnail"
-                      />
+                      <div className="w-100 h-[160] mx-auto bg-gray-300">
+                        <Image src={content?.thumbnail?.url} alt="thumbnail" />
+                      </div>
                     </Card.Section>
 
                     <Group position="apart" mt="md" mb="xs">
@@ -101,8 +106,11 @@ const Home: NextPage<Props> = (props) => {
                       reprehenderit odio dolores.
                     </Text>
 
-                    <Badge color="green" variant="light">
+                    <Badge color="green" variant="light" className="mt-2">
                       {/* TODO: add tags */}
+                      {/* {content.tags.map((tag) => {
+                        return `#${tag} `;
+                      })} */}
                       #React
                     </Badge>
                   </Card>

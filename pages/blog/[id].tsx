@@ -1,26 +1,47 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { client } from "../../libs/client";
+import { client } from "@/libs/client";
 import { Blog } from "../index";
 import { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 import dayjs from "dayjs";
-import BlogLayout from "../../components/BlogLayout";
-import RightSidebar from "../../components/RightSidebar";
+import BlogLayout from "@/components/BlogLayout";
+import RightSidebar from "@/components/RightSidebar";
+import Image from "next/image";
 
 type Props = Blog & MicroCMSContentId & MicroCMSDate;
 
 const BlogId: NextPage<Props> = (props) => {
   return (
     <BlogLayout>
-      <div className="grid grid-cols-12 gap-4 p-8 md:w-4/5 w-full h-[90%]">
-        <div className="lg:col-span-8 col-span-12 p-8 bg-gray-200">
-          <div className="w-full h-72 mx-auto bg-gray-400" />
-          <h1 className="text-xl font-bold my-8">{props.title}</h1>
-          <time dateTime={props.publishedAt} className="pb-8 block">
-            {dayjs(props.publishedAt).format("YYYY/MM/DD")}
-          </time>
+      <div className="grid grid-cols-12 gap-4 p-0 md:p-8 md:w-4/5 w-full h-[90%]">
+        <div className="lg:col-span-8 col-span-12 py-8 px-4 md:p-8 bg-gray-200">
+          <Image
+            className="rounded-md"
+            src={props.thumbnail.url}
+            alt="thumbnail"
+            width={props.thumbnail.width}
+            height={300}
+            loading="lazy"
+          />
+          <h1 className="text-2xl font-bold my-4 md:my-8">{props.title}</h1>
+          <div className="flex align-center justify-between pb-4 md:pb-8">
+            <time dateTime={props.updatedAt}>
+              {dayjs(props.updatedAt).format("YYYY.MM.DD")}
+            </time>
+            {props.category && (
+              <p className="text-gray-400">/{props?.category}</p>
+            )}
+          </div>
+          {/* TODO: ad tags */}
+          <div className="flex">
+            {/* {props.tags ? (
+              <p className="bg-gray-300 rounded-md mr-2 p-2">{props?.tags}</p>
+            ) : ( */}
+            <p className="bg-gray-300 rounded-md mr-2 p-2"># react</p>
+            {/* )} */}
+          </div>
           {/* TODO: add codeblock + color & copyable*/}
           <div
-            className="prose prose-slate text-left text-gray-700"
+            className="prose prose-slate text-left text-gray-700 py-4"
             dangerouslySetInnerHTML={{ __html: props.body }}
           />
         </div>

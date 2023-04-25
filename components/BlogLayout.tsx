@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from "react";
 
-import { Dropdown } from './nabvar/Dropdown';
-import { Navbar } from './nabvar/Navbar';
+import { Dropdown } from "./nabvar/Dropdown";
+import { Navbar } from "./nabvar/Navbar";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,26 +16,19 @@ export default function Layout({ children }: { children: ReactNode }) {
         setIsOpen(false);
       }
     };
-    window.addEventListener('resize', hideMenu);
+    window.addEventListener("resize", hideMenu);
     return () => {
-      window.removeEventListener('resize', hideMenu);
+      window.removeEventListener("resize", hideMenu);
     };
   });
 
   return (
     // FIXME:
-    <div className="flex flex-col items-center justify-center max-w-screen text-sm text-gray-600 mt-20">
+    <div className="flex flex-col items-center justify-center max-w-screen text-sm text-gray-600 mt-10 md:mt-20">
       <Navbar toggle={toggle} />
       <Dropdown isOpen={isOpen} toggle={toggle} />
       <main className="flex flex-col items-center justify-center flex-1 w-screen">
-        {/* <div
-          className="relative z-10 flex flex-col items-center justify-center w-full h-full text-center bg-no-repeat bg-cover"
-          style={{
-            backgroundImage: 'url(/birdBg.jpg)',
-          }}
-        > */}
-          {children}
-        {/* </div> */}
+        {children}
       </main>
       <footer className="flex items-center justify-center w-full h-10 bg-black mt-10_">
         <p className="text-xs text-center text-gray-500">

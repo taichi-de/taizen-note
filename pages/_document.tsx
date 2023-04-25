@@ -1,7 +1,7 @@
-import { createGetInitialProps } from '@mantine/next';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { createGetInitialProps } from "@mantine/next";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 
-import { GA_TRACKING_ID } from '../utils/gtag';
+import { GA_TRACKING_ID } from "../utils/gtag";
 
 const getInitialProps = createGetInitialProps();
 
@@ -13,7 +13,10 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -26,6 +29,7 @@ export default class MyDocument extends Document {
           `,
             }}
           />
+          <link rel="icon" href="/profile1.jpeg" />
         </Head>
         <body>
           <Main />

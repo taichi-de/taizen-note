@@ -1,21 +1,22 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export const navItems = [
+  // TODO: add categories?
   {
-    name: 'About',
-    path: '/about',
+    name: "About",
+    path: "/about",
   },
   {
-    name: 'Resume',
-    path: '/resume',
+    name: "Resume",
+    path: "/resume",
   },
   {
-    name: 'Linktree',
-    path: '/linktree',
+    name: "Linktree",
+    path: "/linktree",
   },
   {
-    name: 'Contact',
-    path: '/contact',
+    name: "Contact",
+    path: "/contact",
   },
 ];
 
