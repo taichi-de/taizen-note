@@ -32,7 +32,7 @@ const BlogId: NextPage<Props> = (props) => {
             )}
           </div>
           <div className="flex">
-            {props.tags ? (
+            {/* {props.tags ? (
               props.tags.map((tag) => {
                 return (
                   <p className="bg-gray-300 rounded-md mr-2 p-2" key={tag}>
@@ -42,7 +42,8 @@ const BlogId: NextPage<Props> = (props) => {
               })
             ) : (
               <p className="bg-gray-300 rounded-md mr-2 p-2">no tag</p>
-            )}
+            )} */}
+            <p className="bg-gray-300 rounded-md mr-2 p-2"># react</p>
           </div>
           {/* TODO: add codeblock + color & copyable*/}
           <div
