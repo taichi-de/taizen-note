@@ -12,7 +12,7 @@ export type Blog = {
   title: string;
   body: string;
   updatedAt: string;
-  category: string;
+  category: { id: string };
   thumbnail: {
     url: string;
     width: number;
@@ -90,8 +90,12 @@ const Home: NextPage<Props> = (props) => {
                     className=""
                   >
                     <Card.Section>
-                      <div className="w-100 h-[160] mx-auto bg-gray-300">
-                        <Image src={content?.thumbnail?.url} alt="thumbnail" />
+                      <div className="mx-auto bg-gray-300">
+                        <Image
+                          height={"220px"}
+                          src={content?.thumbnail?.url}
+                          alt="thumbnail"
+                        />
                       </div>
                     </Card.Section>
 
@@ -100,10 +104,11 @@ const Home: NextPage<Props> = (props) => {
                     </Group>
 
                     <Text size="sm" color="dimmed">
-                      {/* TODO: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ...' */}
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Nihil deleniti laboriosam recusandae sint praesentium,
-                      reprehenderit odio dolores.
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: content.body.slice(0, 80),
+                        }}
+                      />
                     </Text>
 
                     <Badge color="green" variant="light" className="mt-2">
@@ -111,7 +116,7 @@ const Home: NextPage<Props> = (props) => {
                       {/* {content.tags.map((tag) => {
                         return `#${tag} `;
                       })} */}
-                      #React
+                      # React
                     </Badge>
                   </Card>
                 </Link>
@@ -119,7 +124,7 @@ const Home: NextPage<Props> = (props) => {
             })}
           </div>
         </div>
-        <div className="lg:col-span-4 col-span-12 lg:block h-full bg-sky-300 lg:bg-transparent">
+        <div className="col-span-12 md:col-span-6 lg:col-span-4 lg:block h-full bg-sky-300 lg:bg-transparent">
           <RightSidebar />
         </div>
       </div>

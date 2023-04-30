@@ -19,7 +19,7 @@ const BlogId: NextPage<Props> = (props) => {
             src={props.thumbnail.url}
             alt="thumbnail"
             width={props.thumbnail.width}
-            height={300}
+            height={200}
             loading="lazy"
           />
           <h1 className="text-2xl font-bold my-4 md:my-8">{props.title}</h1>
@@ -27,18 +27,22 @@ const BlogId: NextPage<Props> = (props) => {
             <time dateTime={props.updatedAt}>
               {dayjs(props.updatedAt).format("YYYY.MM.DD")}
             </time>
-            {/* TODO: add categories
             {props.category && (
-              <p className="text-gray-400">/{props?.category}</p>
-            )} */}
+              <p className="text-gray-400">{props?.category.id}</p>
+            )}
           </div>
-          {/* TODO: ad tags */}
           <div className="flex">
-            {/* {props.tags ? (
-              <p className="bg-gray-300 rounded-md mr-2 p-2">{props?.tags}</p>
-            ) : ( */}
-            <p className="bg-gray-300 rounded-md mr-2 p-2"># react</p>
-            {/* )} */}
+            {props.tags ? (
+              props.tags.map((tag) => {
+                return (
+                  <p className="bg-gray-300 rounded-md mr-2 p-2" key={tag}>
+                    {tag}
+                  </p>
+                );
+              })
+            ) : (
+              <p className="bg-gray-300 rounded-md mr-2 p-2">no tag</p>
+            )}
           </div>
           {/* TODO: add codeblock + color & copyable*/}
           <div
