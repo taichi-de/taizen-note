@@ -6,20 +6,7 @@ import BlogLayout from "../components/BlogLayout";
 import RightSidebar from "../components/RightSidebar";
 import { ComponentProps, useState } from "react";
 import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
-
-export type Blog = {
-  id: string;
-  title: string;
-  body: string;
-  updatedAt: string;
-  category: { id: string };
-  thumbnail: {
-    url: string;
-    width: number;
-    height: number;
-  };
-  tags: string[];
-};
+import type { Blog, Tag } from "../types/blog";
 
 type Props = MicroCMSListResponse<Blog>;
 
@@ -44,6 +31,25 @@ const Home: NextPage<Props> = (props) => {
 
   const contents = search ? search.contents : props.contents;
   const totalCount = search ? search.totalCount : props.totalCount;
+
+  // const [showBlogs, setShowBlogs] = useState(props);
+  // const tagList = props.tags.map((tag) => tag.tag);
+  // const selectTag = (tag: string) => {
+  //   if (tag === "all") {
+  //     setShowBlogs(props);
+  //   } else {
+  //     const selectedBlogs = props.filter((prop: Props) => {
+  //       const haveTags = prop.tags.map((tag: Tag) => tag.tag);
+  //       return haveTags.includes(tag);
+  //     });
+  //     setShowBlogs(selectedBlogs);
+  //   }
+
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   return (
     <BlogLayout>
@@ -98,25 +104,30 @@ const Home: NextPage<Props> = (props) => {
                         />
                       </div>
                     </Card.Section>
-
                     <Group position="apart" mt="md" mb="xs">
                       <Text weight={500}>{content.title}</Text>
                     </Group>
-
-                    <Text size="sm" color="dimmed">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: content.body.slice(0, 80),
-                        }}
-                      />
-                    </Text>
-
-                    <Badge color="green" variant="light" className="mt-2">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: content.body.slice(0, 80) + " ...",
+                      }}
+                    />
+                    <Badge color="green" variant="light" className="flex mt-2">
                       {/* TODO: add tags */}
-                      {/* {content.tags.map((tag) => {
-                        return `#${tag} `;
-                      })} */}
-                      # React
+                      {content.tags ? (
+                        content.tags.map((tag) => {
+                          return (
+                            <p
+                              className="bg-gray-300 rounded-md mr-2 p-2"
+                              key={tag.id}
+                            >
+                              #{tag.tag}
+                            </p>
+                          );
+                        })
+                      ) : (
+                        <p className="bg-gray-300 rounded-md mr-2 p-2"># any</p>
+                      )}
                     </Badge>
                   </Card>
                 </Link>
@@ -126,6 +137,17 @@ const Home: NextPage<Props> = (props) => {
         </div>
         <div className="col-span-12 md:col-span-6 lg:col-span-4 lg:block h-full bg-sky-300 lg:bg-transparent">
           <RightSidebar />
+          {/* <div className="text-left">
+            <div onClick={() => selectTag("all")}>
+              <p>All</p>
+            </div>
+
+            {tagList.map((tag: Tag) => (
+              <div key={tag.id} onClick={() => selectTag(tag.tag)}>
+                <p>{tag.tag}</p>
+              </div>
+            ))}
+          </div>*/}
         </div>
       </div>
     </BlogLayout>

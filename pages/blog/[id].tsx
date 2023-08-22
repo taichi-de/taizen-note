@@ -1,11 +1,14 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { client } from "@/libs/client";
-import { Blog } from "../index";
+import { Blog } from "../../types/blog";
 import { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 import dayjs from "dayjs";
 import BlogLayout from "@/components/BlogLayout";
 import RightSidebar from "@/components/RightSidebar";
 import Image from "next/image";
+import cheerio from "cheerio";
+import hljs from "highlight.js";
+import "highlight.js/styles/hybrid.css";
 
 type Props = Blog & MicroCMSContentId & MicroCMSDate;
 
@@ -31,19 +34,18 @@ const BlogId: NextPage<Props> = (props) => {
               <p className="text-gray-400">{props?.category.id}</p>
             )}
           </div>
-          <div className="flex">
-            {/* {props.tags ? (
+          <div className="flex justify-start">
+            {props.tags ? (
               props.tags.map((tag) => {
                 return (
-                  <p className="bg-gray-300 rounded-md mr-2 p-2" key={tag}>
-                    {tag}
+                  <p className="bg-gray-300 rounded-md mr-2 p-2" key={tag.id}>
+                    # {tag.tag}
                   </p>
                 );
               })
             ) : (
-              <p className="bg-gray-300 rounded-md mr-2 p-2">no tag</p>
-            )} */}
-            <p className="bg-gray-300 rounded-md mr-2 p-2"># react</p>
+              <p className="bg-gray-300 rounded-md mr-2 p-2"># any</p>
+            )}
           </div>
           {/* TODO: add codeblock + color & copyable*/}
           <div
@@ -78,8 +80,17 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async (
     contentId: ctx.params.id,
     endpoint: "blog",
   });
+  // const $ = cheerio.load(data.body);
+  // $("pre code").each((_, elm) => {
+  //   const result = hljs.highlightAuto($(elm).text());
+  //   $(elm).html(result.value);
+  //   $(elm).addClass("hljs");
+  // });
 
-  return { props: data };
+  return {
+    props: data,
+    // highlightedBody: $.html()
+  };
 };
 
 export default BlogId;
