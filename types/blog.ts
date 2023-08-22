@@ -7,7 +7,6 @@ export type Blog = {
   category: { id: string };
   createdAt: string;
   updatedAt: string;
-  publishedAt: string;
   thumbnail: {
     url: string;
     width: number;
@@ -20,6 +19,4 @@ export type Tag = {
   tag: string;
   createdAt: string;
   updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
 };

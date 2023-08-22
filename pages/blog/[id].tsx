@@ -9,6 +9,7 @@ import Image from "next/image";
 import cheerio from "cheerio";
 import hljs from "highlight.js";
 import "highlight.js/styles/hybrid.css";
+import { Badge } from "@mantine/core";
 
 type Props = Blog & MicroCMSContentId & MicroCMSDate;
 
@@ -28,24 +29,25 @@ const BlogId: NextPage<Props> = (props) => {
           <h1 className="text-2xl font-bold my-4 md:my-8">{props.title}</h1>
           <div className="flex align-center justify-between pb-4 md:pb-8">
             <time dateTime={props.updatedAt}>
-              {dayjs(props.updatedAt).format("YYYY.MM.DD")}
+              {dayjs(props.updatedAt).format("YYYY-MM-DD")}
             </time>
             {props.category && (
               <p className="text-gray-400">{props?.category.id}</p>
             )}
           </div>
           <div className="flex justify-start">
-            {props.tags ? (
+            {/* TODO: add tags */}
+            {props.tags &&
               props.tags.map((tag) => {
                 return (
-                  <p className="bg-gray-300 rounded-md mr-2 p-2" key={tag.id}>
-                    # {tag.tag}
-                  </p>
+                  <Badge
+                    className="bg-sky-300 text-gray-200 rounded-full mr-2 p-2"
+                    key={tag.id}
+                  >
+                    #{tag.tag}
+                  </Badge>
                 );
-              })
-            ) : (
-              <p className="bg-gray-300 rounded-md mr-2 p-2"># any</p>
-            )}
+              })}
           </div>
           {/* TODO: add codeblock + color & copyable*/}
           <div
