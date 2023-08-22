@@ -1,6 +1,6 @@
-import { createClient } from 'microcms-js-sdk';
+import { createClient } from "microcms-js-sdk";
 
 export const client = createClient({
-  apiKey: process.env.MICROCMS_API_KEY,
-  serviceDomain: 'taizen-dev',
+  serviceDomain: process.env.SERVICE_DOMAIN || "",
+  apiKey: process.env.MICROCMS_API_KEY || "",
 });
