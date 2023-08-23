@@ -8,6 +8,7 @@ import { ComponentProps, useState } from "react";
 import { Card, Image, Text, Badge, Button } from "@mantine/core";
 import type { Blog } from "../types/blog";
 import CategoryTabs from "@/components/CategoryTabs";
+import { CiCalendarDate } from "react-icons/ci";
 
 type Props = MicroCMSListResponse<Blog>;
 
@@ -101,14 +102,12 @@ const Home: NextPage<Props> = (props) => {
                           alt="thumbnail"
                           className="relative"
                         />
-                        <div className="absolute top-3 left-3">
-                          <Badge className="bg-forth text-main/90 rounded-full mr-2 p-2">
-                            {/* TODO:
+                        <Badge className="absolute top-3 left-3 bg-forth text-main/90 rounded-full mr-2 p-2">
+                          {/* TODO:
                               {content?.category?.id}
                             */}
-                            Tutorial
-                          </Badge>
-                        </div>
+                          Tutorial
+                        </Badge>
                       </div>
                     </Card.Section>
                     <Text weight={600} className="mt-2 mb-1 text-title">
@@ -120,9 +119,10 @@ const Home: NextPage<Props> = (props) => {
                       }}
                       className="text-content"
                     />
-                    <Text className="mt-2 text-right text-sub">
-                      {formattedDate}
-                    </Text>
+                    <div className="flex items-center justify-end mt-2 text-sub">
+                      <CiCalendarDate className="mr-2" />
+                      <p>{formattedDate}</p>
+                    </div>
                   </Card>
                 </Link>
               );
