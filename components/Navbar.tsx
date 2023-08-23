@@ -5,21 +5,21 @@ export const Navbar = () => {
   return (
     <div className="">
       <nav
-        className="text-center w-screen p-4 shadow-sm shadow-gray-500 md:h-16 sm:h-10"
+        className="text-center w-screen p-4 shadow-sm shadow-gray/50 md:h-16 sm:h-10"
         role="navigation"
       >
         <Link
           href="/"
-          className="flex justify-center font-serif text-xl font-bold text-gray-400 px-auto"
+          className="flex justify-center font-serif text-xl font-bold px-auto"
         >
           <Image
-            src="/taizen-logo.png"
+            src="/taizen-logo-gray.png"
             alt="logo"
             width={32}
             height={32}
             className="mr-3"
           />
-          TAIZEN
+          TAIZEN NOTE
         </Link>
       </nav>
     </div>

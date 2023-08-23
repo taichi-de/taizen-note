@@ -5,8 +5,9 @@ import Link from "next/link";
 import BlogLayout from "../components/BlogLayout";
 import RightSidebar from "../components/RightSidebar";
 import { ComponentProps, useState } from "react";
-import { Card, Image, Text, Badge, Button, Tabs } from "@mantine/core";
-import type { Blog, Tag } from "../types/blog";
+import { Card, Image, Text, Badge, Button } from "@mantine/core";
+import type { Blog } from "../types/blog";
+import CategoryTabs from "@/components/CategoryTabs";
 
 type Props = MicroCMSListResponse<Blog>;
 
@@ -51,53 +52,33 @@ const Home: NextPage<Props> = (props) => {
   //   });
   // };
 
-  const tabs = ["All", "Tutorial", "Life Hack", "Travel", "Others"];
-
   return (
     <BlogLayout>
       <div className="grid grid-cols-12 gap-4 py-4 px-0 md:p-8 lg:w-4/5 w-full h-[90%] text-left">
-        <div className="lg:col-span-8 col-span-12 bg-gray-200 pt-4 px-2 rounded-sm">
+        <div className="lg:col-span-8 col-span-12 bg-main pt-4 px-2 rounded-sm">
           <div className="md:flex block justify-between items-center px-4">
-            <p className="text-gray-400">{`${
+            <p className="text-sub">{`${
               search ? "Search result" : "Total"
             }: ${totalCount} Posts`}</p>
             <form className="flex gap-x-2" onSubmit={handleSubmit}>
               <input
                 type="text"
                 name="query"
-                className="border rounded-md border-gray-300 p-1 focus:border-cyan-600/50"
+                className="border rounded-md border-third p-1 focus:border-secondary"
               />
-              <Button className="rounded-md px-1 text-gray-50 bg-cyan-600 hover:bg-cyan-600/70">
+              <Button className="rounded-md px-1 text-main bg-third hover:opacity-80">
                 Search
               </Button>
               <Button
                 type="reset"
-                className="rounded-md px-1 text-gray-50 bg-cyan-600 hover:bg-cyan-600/70"
+                className="rounded-md px-1 text-main bg-third hover:opacity-80"
                 onClick={handleClick}
               >
                 Reset
               </Button>
             </form>
           </div>
-          <Tabs
-            defaultValue="all"
-            className="flex-col m-4 border-b border-cyan-600"
-            unstyled
-          >
-            <Tabs.List grow position="apart">
-              {tabs.map((tab, i) => (
-                <Tabs.Tab
-                  value="all"
-                  className={`${
-                    i === 0 && "text-gray-100 bg-cyan-600"
-                  } text-cyan-600 hover:bg-cyan-600 hover:text-gray-100 mr-1 p-2 rounded-t-sm`}
-                  key={tab}
-                >
-                  {tab}
-                </Tabs.Tab>
-              ))}
-            </Tabs.List>
-          </Tabs>
+          <CategoryTabs />
           <div className="grid md:grid-cols-2 gap-4 m-4">
             {contents.map((content) => {
               const dateObj = new Date(content.createdAt);
@@ -113,7 +94,7 @@ const Home: NextPage<Props> = (props) => {
                 >
                   <Card shadow="sm" padding="md" radius="sm" withBorder>
                     <Card.Section>
-                      <div className="mx-auto bg-gray-300">
+                      <div className="mx-auto bg-gray/70">
                         <Image
                           height={"180px"}
                           src={content?.thumbnail?.url}
@@ -121,7 +102,7 @@ const Home: NextPage<Props> = (props) => {
                           className="relative"
                         />
                         <div className="absolute top-3 left-3">
-                          <Badge className="bg-sky-700 text-gray-200 rounded-full mr-2 p-2">
+                          <Badge className="bg-forth text-main/90 rounded-full mr-2 p-2">
                             {/* TODO:
                               {content?.category?.id}
                             */}
@@ -130,16 +111,16 @@ const Home: NextPage<Props> = (props) => {
                         </div>
                       </div>
                     </Card.Section>
-                    <Text weight={600} className="mt-2 mb-1 text-gray-700">
+                    <Text weight={600} className="mt-2 mb-1 text-title">
                       {content.title}
                     </Text>
                     <div
                       dangerouslySetInnerHTML={{
                         __html: content.body.slice(0, 78) + " ...",
                       }}
-                      className="text-gray-600"
+                      className="text-content"
                     />
-                    <Text className="mt-2 text-right text-gray-700/70">
+                    <Text className="mt-2 text-right text-sub">
                       {formattedDate}
                     </Text>
                   </Card>
