@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { client } from "@/libs/client";
-import { Blog } from "../../types/blog";
+import { Blog, Tag } from "../../types/blog";
 import { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 import dayjs from "dayjs";
 import BlogLayout from "@/components/BlogLayout";
@@ -9,7 +9,7 @@ import Image from "next/image";
 import cheerio from "cheerio";
 import hljs from "highlight.js";
 import "highlight.js/styles/hybrid.css";
-import { Badge } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { CiCalendarDate } from "react-icons/ci";
 
 type Props = Blog & MicroCMSContentId & MicroCMSDate;
@@ -26,7 +26,17 @@ const BlogId: NextPage<Props> = (props) => {
             height={200}
             className="relative rounded-md"
           />
-          <h1 className="text-2xl text-title font-bold my-4 md:my-6">
+          <div className="flex justify-start flex-wrap mt-4">
+            {props.tags.map((tag: Tag) => (
+              <div
+                key={tag.id}
+                className="bg-secondary text-third rounded-full mr-2 mb-2 p-2"
+              >
+                <Text>#{tag.tag}</Text>
+              </div>
+            ))}
+          </div>
+          <h1 className="text-2xl text-title font-bold my-2 md:my-4">
             {props.title}
           </h1>
           <div className="flex align-center justify-between text-sub pb-4">
@@ -35,20 +45,6 @@ const BlogId: NextPage<Props> = (props) => {
               <time dateTime={props.updatedAt}>
                 {dayjs(props.updatedAt).format("YYYY-MM-DD")}
               </time>
-            </div>
-            <div className="flex justify-start">
-              {/* TODO: add tags */}
-              {props.tags &&
-                props.tags.map((tag) => {
-                  return (
-                    <Badge
-                      className="bg-secondary text-third rounded-full mr-2 p-2"
-                      key={tag.id}
-                    >
-                      #{tag.tag}
-                    </Badge>
-                  );
-                })}
             </div>
           </div>
           {/* TODO: add codeblock + color & copyable*/}

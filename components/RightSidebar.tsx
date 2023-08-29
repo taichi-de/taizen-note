@@ -1,17 +1,17 @@
+/* eslint-disable react/display-name */
 import Image from "next/image";
 import Link from "next/link";
-import { Text } from "@mantine/core";
+import { memo } from "react";
+import { Text, Button } from "@mantine/core";
 import Icons from "./Icons";
+import { useSelectBlogs } from "@/hooks/useSelectBlogs";
+import { useAllTagsState } from "@/atoms/allTagsAtom";
+import { useAllBlogsState } from "@/atoms/allBlogsAtom";
 
-const RightSidebar = () => {
-  const Tags = [
-    "Next.js",
-    "Python",
-    "Tailwindcss",
-    "MantineUI",
-    "REST API",
-    "microCMS",
-  ];
+const RightSidebar = memo(() => {
+  const { allTags } = useAllTagsState();
+  const { allBlogs } = useAllBlogsState();
+  const { selectTag } = useSelectBlogs();
 
   return (
     <div className="p-8 leading-loose text-center font-medium text-title bg-main w-full rounded-sm">
@@ -48,26 +48,12 @@ const RightSidebar = () => {
           Latest Posts
         </Text>
         <div className="text-left text-wrap px-4">
-          {/* TODO: add recommendation from api -> map */}
-          <div className="hover:pointer hover:text-third">
-            <span className="mr-2">&gt;</span>
-            <Link href="#">
-              Next.js/Axios/Flask(Python)で作るフルスタックForm
-            </Link>
-          </div>
-          <div className="hover:pointer hover:text-third">
-            <span className="mr-2">&gt;</span>
-            <Link href="#" className="my-2">
-              How to implement a loading function in react
-            </Link>
-          </div>
-          <div className="hover:pointer hover:text-third">
-            <span className="mr-2">&gt;</span>
-            <Link href="#">
-              [Next.js + Tailwindcss + MantineUI + Vercel + microCMS]
-              microCMSとNext.js でブログを作る
-            </Link>
-          </div>
+          {allBlogs.slice(0, 5).map((blog) => (
+            <div key={blog.id} className="hover:pointer hover:text-third">
+              <span className="mr-2">&gt;</span>
+              <Link href={`/blog/${blog.id}`}>{blog.title.slice(0, 35)}</Link>
+            </div>
+          ))}
         </div>
       </div>
       <div className="px-auto border border-third">
@@ -75,21 +61,31 @@ const RightSidebar = () => {
           Tags
         </Text>
         <div className="flex flex-wrap pl-2 text-left over">
-          {Tags.map((tag) => {
+          <Button
+            onClick={() => selectTag("all")}
+            className="bg-secondary rounded-full mb-2 mr-2 p-2"
+          >
+            <Text>All</Text>
+          </Button>
+          {!allTags.length && (
+            <p className="bg-secondary rounded-full mb-2 mr-2 p-2">No Tag</p>
+          )}
+          {allTags.map((tag) => {
+            console.log(tag);
             return (
-              <Link
-                href="#"
+              <Button
                 key={tag}
-                className="bg-secondary rounded-full mb-2 mr-2 p-2 hover:pointer"
+                onClick={() => selectTag(tag)}
+                className="bg-secondary rounded-full mb-2 mr-2 p-2"
               >
-                # {tag}
-              </Link>
+                <Text>{tag}</Text>
+              </Button>
             );
           })}
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default RightSidebar;
