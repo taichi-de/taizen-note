@@ -4,7 +4,7 @@ export type Blog = {
   title: string;
   tags: Tag[];
   image: string;
-  category: { id: string };
+  category: Category[];
   createdAt: string;
   updatedAt: string;
   thumbnail: {
@@ -12,6 +12,11 @@ export type Blog = {
     width: number;
     height: number;
   };
+};
+
+export type Category = {
+  id: string;
+  category: string;
 };
 
 export type Tag = {

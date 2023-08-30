@@ -49,9 +49,8 @@ const BlogId: NextPage<Props> = (props) => {
               </time>
             </div>
           </div>
-          {/* TODO: add codeblock + color & copyable*/}
           <div
-            className="prose prose-slate text-left text-content py-4"
+            className="prose-base prose-slate text-left text-content py-4"
             dangerouslySetInnerHTML={{ __html: `${props.highlightedBody}` }}
           />
         </div>

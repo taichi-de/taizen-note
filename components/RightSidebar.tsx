@@ -49,7 +49,10 @@ const RightSidebar = memo(() => {
         </Text>
         <div className="text-left text-wrap px-4">
           {allBlogs.slice(0, 5).map((blog) => (
-            <div key={blog.id} className="hover:pointer hover:text-third">
+            <div
+              key={blog.id}
+              className="hover:cursor-pointer hover:text-third"
+            >
               <span className="mr-2">&gt;</span>
               <Link href={`/blog/${blog.id}`}>{blog.title.slice(0, 35)}</Link>
             </div>
@@ -70,18 +73,15 @@ const RightSidebar = memo(() => {
           {!allTags.length && (
             <p className="bg-secondary rounded-full mb-2 mr-2 p-2">No Tag</p>
           )}
-          {allTags.map((tag) => {
-            console.log(tag);
-            return (
-              <Button
-                key={tag}
-                onClick={() => selectTag(tag)}
-                className="bg-secondary rounded-full mb-2 mr-2 p-2"
-              >
-                <Text>{tag}</Text>
-              </Button>
-            );
-          })}
+          {allTags.map((tag) => (
+            <Button
+              key={tag}
+              onClick={() => selectTag(tag)}
+              className="bg-secondary rounded-full mb-2 mr-2 p-2"
+            >
+              <Text>{tag}</Text>
+            </Button>
+          ))}
         </div>
       </div>
     </div>
