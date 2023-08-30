@@ -22,5 +22,24 @@ export const useSelectBlogs = () => {
     });
   };
 
-  return { selectTag };
+  const selectCategory = (category: string) => {
+    if (category === "all" || "") {
+      setShowBlogs(allBlogs);
+    } else {
+      const selectedBlogs = allBlogs.filter((blog) => {
+        const haveCategories = blog.category.map(
+          (category) => category.category
+        );
+        return haveCategories.includes(category);
+      });
+      setShowBlogs(selectedBlogs);
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  return { selectTag, selectCategory };
 };

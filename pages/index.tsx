@@ -5,25 +5,29 @@ import BlogLayout from "../components/BlogLayout";
 import RightSidebar from "../components/RightSidebar";
 import { useEffect, useState } from "react";
 import { Card, Image, Text, Badge } from "@mantine/core";
-import type { Blog, Tag } from "../types/blog";
+import type { Blog, Category, Tag } from "../types/blog";
 import CategoryTabs from "@/components/CategoryTabs";
 import Pagination from "@/components/Pagination";
 import { CiCalendarDate } from "react-icons/ci";
 import { useAllBlogsState } from "@/atoms/allBlogsAtom";
+import { useAllCategoriesState } from "@/atoms/allCategoriesAtom";
 import { useAllTagsState } from "@/atoms/allTagsAtom";
 import { useShowBlogsState } from "@/atoms/showBlogsAtom";
 
 type Props = {
   blogs: Blog[];
+  categories: Category[];
   tags: Tag[];
 };
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   blogs,
+  categories,
   tags,
 }: Props) => {
   // const [search, setSearch] = useState<Props>();
   const { setAllBlogs } = useAllBlogsState();
+  const { setAllCategories } = useAllCategoriesState();
   const { setAllTags } = useAllTagsState();
   const { showBlogs, setShowBlogs } = useShowBlogsState();
   const tagList = tags.map((tag) => tag.tag);
@@ -32,6 +36,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   useEffect(() => {
     setAllBlogs(blogs);
+    setAllCategories(categories);
     setAllTags(tagList);
     setShowBlogs(blogs);
   }, []);
@@ -91,7 +96,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               }-${dateObj.getDate()}`;
               return (
                 <Link
-                  className="hover:pointer"
+                  className="hover:cursor-pointer"
                   href={`/blog/${blog.id}`}
                   key={blog.id}
                 >
@@ -104,12 +109,14 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                           alt="thumbnail"
                           className="relative"
                         />
-                        <Badge className="absolute top-3 left-3 bg-forth text-main/90 rounded-full mr-2 p-2">
-                          {/* TODO:
-                              {blog?.category?.id}
-                            */}
-                          Tutorial
-                        </Badge>
+                        {blog?.category.map((category: Category) => (
+                          <Badge
+                            key={category.id}
+                            className="absolute top-3 left-3 bg-forth text-main/90 rounded-full mr-2 p-2"
+                          >
+                            <Text>{category.category}</Text>
+                          </Badge>
+                        ))}
                       </div>
                     </Card.Section>
                     <Text weight={600} className="mt-2 mb-1 text-title">
@@ -146,9 +153,15 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
 export const getStaticProps = async () => {
   const blog = await client.getList<Blog>({ endpoint: "blog" });
+  const category = await client.getList<Category>({ endpoint: "categories" });
   const tag = await client.getList<Tag>({ endpoint: "tags" });
+
   return {
-    props: { blogs: blog.contents, tags: tag.contents },
+    props: {
+      blogs: blog.contents,
+      categories: category.contents,
+      tags: tag.contents,
+    },
   };
 };
 

@@ -1,17 +1,39 @@
+import { useAllCategoriesState } from "@/atoms/allCategoriesAtom";
+import { useSelectBlogs } from "@/hooks/useSelectBlogs";
+import { useState } from "react";
+
 export const CategoryTabs = () => {
-  const tabs = ["All", "Tutorial", "Trouble Shooting", "Others"];
+  const { allCategories } = useAllCategoriesState();
+  const { selectCategory } = useSelectBlogs();
+  const [activeCategory, setActiveCategory] = useState("all");
 
   return (
     <ul className="grid grid-flow-col justify-stretch m-4 text-center rounded-sm">
-      {tabs.map((tab, i) => (
+      <li
+        onClick={() => {
+          selectCategory("all");
+          setActiveCategory("all");
+        }}
+        className={`text-main bg-third ${
+          activeCategory === "all" && "bg-pink/80"
+        }
+        hover:cursor-pointer mr-1 p-2`}
+      >
+        All
+      </li>
+      {allCategories.map((category) => (
         <li
-          value="all"
-          className={`${
-            i === 0 && "text-main bg-third"
-          } bg-gray/50 text-third hover:bg-third hover:text-main hover:pointer  mr-1 p-2 rounded-t-sm`}
-          key={tab}
+          onClick={() => {
+            selectCategory(category.category);
+            setActiveCategory(category.category);
+          }}
+          className={`text-main bg-third ${
+            activeCategory === category.category && "bg-pink/80"
+          }
+       hover:cursor-pointer mr-1 p-2`}
+          key={category?.id}
         >
-          {tab}
+          {category.category}
         </li>
       ))}
     </ul>
