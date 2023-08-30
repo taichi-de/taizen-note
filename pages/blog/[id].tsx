@@ -6,13 +6,15 @@ import dayjs from "dayjs";
 import BlogLayout from "@/components/BlogLayout";
 import RightSidebar from "@/components/RightSidebar";
 import Image from "next/image";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import hljs from "highlight.js";
-import "highlight.js/styles/hybrid.css";
+import "highlight.js/styles/atom-one-dark.css";
 import { Text } from "@mantine/core";
 import { CiCalendarDate } from "react-icons/ci";
 
-type Props = Blog & MicroCMSContentId & MicroCMSDate;
+type Props = Blog &
+  MicroCMSContentId &
+  MicroCMSDate & { highlightedBody: string };
 
 const BlogId: NextPage<Props> = (props) => {
   return (
@@ -20,9 +22,9 @@ const BlogId: NextPage<Props> = (props) => {
       <div className="grid grid-cols-12 gap-4 p-0 md:p-8 md:w-4/5 w-full h-[90%]">
         <div className="lg:col-span-8 col-span-12 py-8 px-4 md:p-8 bg-main">
           <Image
-            src={props.thumbnail.url}
+            src={props.thumbnail?.url}
             alt="thumbnail"
-            width={props.thumbnail.width}
+            width={props.thumbnail?.width}
             height={200}
             className="relative rounded-md"
           />
@@ -50,7 +52,7 @@ const BlogId: NextPage<Props> = (props) => {
           {/* TODO: add codeblock + color & copyable*/}
           <div
             className="prose prose-slate text-left text-content py-4"
-            dangerouslySetInnerHTML={{ __html: props.body }}
+            dangerouslySetInnerHTML={{ __html: `${props.highlightedBody}` }}
           />
         </div>
         <div className="lg:col-span-4 col-span-12 lg:block h-full bg-secondary lg:bg-transparent">
@@ -80,16 +82,18 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async (
     contentId: ctx.params.id,
     endpoint: "blog",
   });
-  // const $ = cheerio.load(data.body);
-  // $("pre code").each((_, elm) => {
-  //   const result = hljs.highlightAuto($(elm).text());
-  //   $(elm).html(result.value);
-  //   $(elm).addClass("hljs");
-  // });
+  const $ = cheerio.load(data.body || "");
+  $("pre code").each((_, elm) => {
+    const result = hljs.highlightAuto($(elm).text());
+    $(elm).html(result.value);
+    $(elm).addClass("hljs");
+  });
 
   return {
-    props: data,
-    // highlightedBody: $.html()
+    props: {
+      ...data,
+      highlightedBody: $.html(),
+    },
   };
 };
 
