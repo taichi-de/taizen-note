@@ -8,14 +8,14 @@ export const CategoryTabs = () => {
   const [activeCategory, setActiveCategory] = useState("all");
 
   return (
-    <ul className="grid grid-flow-col justify-stretch m-4 text-center rounded-sm">
+    <ul className="grid sm:justify-stretch grid-cols-3 gap-1 rounded-sm m-4 text-center">
       <li
         onClick={() => {
           selectCategory("all");
           setActiveCategory("all");
         }}
-        className={`text-main bg-third ${
-          activeCategory === "all" && "bg-pink/80"
+        className={`text-main ${
+          activeCategory === "all" ? "bg-pink/80" : "bg-third"
         }
         hover:cursor-pointer mr-1 p-2`}
       >
@@ -27,8 +27,8 @@ export const CategoryTabs = () => {
             selectCategory(category.category);
             setActiveCategory(category.category);
           }}
-          className={`text-main bg-third ${
-            activeCategory === category.category && "bg-pink/80"
+          className={`text-main ${
+            activeCategory === category.category ? "bg-pink/80" : "bg-third"
           }
        hover:cursor-pointer mr-1 p-2`}
           key={category?.id}
