@@ -59,35 +59,48 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 >
                   <Card shadow="sm" padding="md" radius="sm" withBorder>
                     <Card.Section>
-                      <div className="mx-auto bg-gray/70">
+                      <div className="relative mx-auto bg-gray/70">
                         <Image
-                          height={"180px"}
+                          height={180}
                           src={blog?.thumbnail?.url}
                           alt="thumbnail"
-                          className="relative"
                         />
-                        {blog?.category.map((category: Category) => (
-                          <Badge
-                            key={category.id}
-                            className="absolute top-3 left-3 bg-forth text-main/90 rounded-full mr-2 p-2"
+                        <div className="absolute top-0 left-0 w-full h-full bg-forth/40 p-4">
+                          {blog?.category.map((category: Category) => (
+                            <Badge
+                              key={category.id}
+                              className="bg-forth text-main/90 rounded-full mt-1 p-2"
+                            >
+                              <Text>{category.category}</Text>
+                            </Badge>
+                          ))}
+                          <Text
+                            weight={600}
+                            className="w-[80%] my-3 text-main/90 text-base"
                           >
-                            <Text>{category.category}</Text>
-                          </Badge>
-                        ))}
+                            {blog.title.slice(0, 80) + " ..."}
+                          </Text>
+                          <Image
+                            width={60}
+                            height={60}
+                            src="/taizen-logo-gray.png"
+                            alt="logo"
+                            className="absolute bottom-4 right-4 opacity-70"
+                          />
+                        </div>
                       </div>
                     </Card.Section>
-                    <Text weight={600} className="mt-2 mb-1 text-title">
-                      {blog.title}
-                    </Text>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: blog.body.slice(0, 78) + " ...",
-                      }}
-                      className="text-blog"
-                    />
-                    <div className="flex items-center justify-end mt-2 text-sub">
-                      <CiCalendarDate className="mr-2" />
-                      <p>{formattedDate}</p>
+                    <div className="py-3">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: blog.body.slice(0, 78) + " ...",
+                        }}
+                        className="text-content mb-4"
+                      />
+                      <div className="flex items-center justify-end text-sub">
+                        <CiCalendarDate className="mr-2" />
+                        <p>{formattedDate}</p>
+                      </div>
                     </div>
                   </Card>
                 </Link>
