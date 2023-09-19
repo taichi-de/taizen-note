@@ -4,15 +4,14 @@ import Link from "next/link";
 import BlogLayout from "../components/BlogLayout";
 import RightSidebar from "../components/RightSidebar";
 import { useEffect, useState } from "react";
-import { Card, Image, Text, Badge } from "@mantine/core";
 import type { Blog, Category, Tag } from "../types/blog";
 import CategoryTabs from "@/components/CategoryTabs";
 import Pagination from "@/components/Pagination";
-import { CiCalendarDate } from "react-icons/ci";
 import { useAllBlogsState } from "@/atoms/allBlogsAtom";
 import { useAllCategoriesState } from "@/atoms/allCategoriesAtom";
 import { useAllTagsState } from "@/atoms/allTagsAtom";
 import { useShowBlogsState } from "@/atoms/showBlogsAtom";
+import BlogCard from "@/components/BlogCard";
 
 type Props = {
   blogs: Blog[];
@@ -57,52 +56,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   href={`/blog/${blog.id}`}
                   key={blog.id}
                 >
-                  <Card shadow="sm" padding="md" radius="sm" withBorder>
-                    <Card.Section>
-                      <div className="relative mx-auto bg-gray/70">
-                        <Image
-                          height={180}
-                          src={blog?.thumbnail?.url}
-                          alt="thumbnail"
-                        />
-                        <div className="absolute top-0 left-0 w-full h-full bg-forth/40 p-4">
-                          {blog?.category.map((category: Category) => (
-                            <Badge
-                              key={category.id}
-                              className="bg-forth text-main/90 rounded-full mt-1 p-2"
-                            >
-                              <Text>{category.category}</Text>
-                            </Badge>
-                          ))}
-                          <Text
-                            weight={600}
-                            className="w-[80%] my-3 text-main/90 text-base"
-                          >
-                            {blog.title.slice(0, 80) + " ..."}
-                          </Text>
-                          <Image
-                            width={60}
-                            height={60}
-                            src="/taizen-logo-gray.png"
-                            alt="logo"
-                            className="absolute bottom-4 right-4 opacity-70"
-                          />
-                        </div>
-                      </div>
-                    </Card.Section>
-                    <div className="py-3">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: blog.body.slice(0, 78) + " ...",
-                        }}
-                        className="text-content mb-4"
-                      />
-                      <div className="flex items-center justify-end text-sub">
-                        <CiCalendarDate className="mr-2" />
-                        <p>{formattedDate}</p>
-                      </div>
-                    </div>
-                  </Card>
+                  <BlogCard blog={blog} formattedDate={formattedDate} />
                 </Link>
               );
             })}
@@ -121,6 +75,8 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   );
 };
 
+export default Home;
+
 export const getStaticProps = async () => {
   const blog = await client.getList<Blog>({ endpoint: "blog" });
   const category = await client.getList<Category>({ endpoint: "categories" });
@@ -134,5 +90,3 @@ export const getStaticProps = async () => {
     },
   };
 };
-
-export default Home;

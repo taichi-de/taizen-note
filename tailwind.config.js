@@ -11,7 +11,7 @@ module.exports = {
       main: "#F6F5F5",
       secondary: "#D3E0EA",
       third: "#1687A7",
-      forth: "#276678",
+      fourth: "#276678",
       title: "#3f3f3f",
       sub: "#7f7f7f",
       content: "#4f4f4f",

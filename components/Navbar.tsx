@@ -5,7 +5,7 @@ import { MdConstruction } from "react-icons/md";
 export const Navbar = () => {
   return (
     <div className="max-w-screen">
-      <div className="flex items-center justify-center bg-main/90 text-forth text-center py-1">
+      <div className="flex items-center justify-center bg-main/90 text-fourth text-center py-1">
         - <MdConstruction className="mr-2" />
         <p>Under construction now</p> -
       </div>

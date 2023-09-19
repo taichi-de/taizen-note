@@ -14,7 +14,7 @@ const RightSidebar = memo(() => {
   const { selectTag } = useSelectBlogs();
 
   return (
-    <div className="p-8 leading-loose text-center font-medium text-title bg-main w-full rounded-sm">
+    <div className="p-8 leading-loose text-center font-medium text-content bg-main w-full rounded-sm">
       <div className="pb-4 px-auto border border-third">
         <Text size="lg" className="bg-third text-main">
           Profile
@@ -26,7 +26,7 @@ const RightSidebar = memo(() => {
           height={120}
           alt="profile"
         />
-        <h2 className="text-base font-medium my-2">
+        <h2 className="text-base my-2">
           Hi! I&apos;m{" "}
           <Link
             href="https://taizen-dev.com"
@@ -54,7 +54,9 @@ const RightSidebar = memo(() => {
               className="hover:cursor-pointer hover:text-third"
             >
               <span className="mr-2">&gt;</span>
-              <Link href={`/blog/${blog.id}`}>{blog.title.slice(0, 35)}</Link>
+              <Link href={`/blog/${blog.id}`}>
+                {blog.title.slice(0, 60)} ...
+              </Link>
             </div>
           ))}
         </div>
@@ -66,7 +68,7 @@ const RightSidebar = memo(() => {
         <div className="flex flex-wrap pl-2 text-left over">
           <Button
             onClick={() => selectTag("all")}
-            className="bg-secondary rounded-full mb-2 mr-2 p-2"
+            className="bg-secondary rounded-full mb-2 mr-2 p-2 hover:bg-blue"
           >
             <Text>All</Text>
           </Button>
@@ -77,7 +79,7 @@ const RightSidebar = memo(() => {
             <Button
               key={tag}
               onClick={() => selectTag(tag)}
-              className="bg-secondary rounded-full mb-2 mr-2 p-2"
+              className="bg-secondary rounded-full mb-2 mr-2 p-2 hover:bg-blue"
             >
               <Text>{tag}</Text>
             </Button>

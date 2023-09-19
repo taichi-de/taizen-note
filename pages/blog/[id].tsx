@@ -28,11 +28,11 @@ const BlogId: NextPage<Props> = (props) => {
               src={props?.thumbnail?.url}
               alt="thumbnail"
             />
-            <div className="absolute top-0 left-0 w-full h-full bg-forth/40 p-4 md:p-8">
+            <div className="absolute top-0 left-0 w-full h-full bg-fourth/40 p-4 md:p-8">
               {props?.category.map((category: Category) => (
                 <Badge
                   key={category.id}
-                  className="bg-forth text-main/90 text-xs md:text-sm rounded-full mt-1 p-3"
+                  className="bg-fourth text-main/90 text-xs md:text-sm rounded-full mt-1 p-3"
                 >
                   <Text>{category.category}</Text>
                 </Badge>
